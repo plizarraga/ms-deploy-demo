@@ -1,0 +1,50 @@
+type Query {
+  # School
+  findAllSchools: [School]
+  findSchoolById(schoolId: String): School
+
+  # Student
+  findAllStudents: [Student]
+  findStudentById(studentId: String): Student
+}
+
+type Mutation {
+  # School
+  createSchool(inputSchool: InputSchool!): School
+  deleteSchool(schoolId: String!): String
+
+  # School
+  createStudent(inputStudent: InputStudent!): Student
+  deleteStudent(studentId: String!): String
+}
+
+type School {
+  id: ID
+  name: String
+  email: String
+  address: String
+  description: String
+  students: [Student]
+}
+
+type Student {
+  id: ID
+  firstName: String
+  lastName: String
+  email: String
+  school: School
+}
+
+input InputSchool {
+  name: String!
+  email: String!
+  address: String!
+  description: String!
+}
+
+input InputStudent {
+  firstName: String!
+  lastName: String!
+  email: String!
+  schoolId: String!
+}
