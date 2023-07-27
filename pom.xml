@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>14.7</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
