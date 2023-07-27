@@ -2,9 +2,22 @@ version: '3.1'
 
 services:
   db:
+    container_name: db
     image: postgres
-    ports:
-      - '5432:5432'
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_DB: db_microservices
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password_demo
+    ports:
+      - '5431:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  db_data:
