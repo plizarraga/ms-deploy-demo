@@ -19,13 +19,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private final StudentService studentRepository;
-    private final SchoolService schoolRepository;
+    private final StudentService studentService;
+    private final SchoolService schoolService;
 
     // Find all students
     @QueryMapping(name = "findAllStudents")
     public List<Student> findAll() {
-        return studentRepository.findAllStudents();
+        return studentService.findAllStudents();
     }
 
     // Find student by id
@@ -33,7 +33,7 @@ public class StudentController {
     public Student findById(@Argument(name = "studentId") String id) {
         Long studentId = Long.parseLong(id);
 
-        return studentRepository.getStudentById(studentId);
+        return studentService.getStudentById(studentId);
     }
 
     // Create student
@@ -44,11 +44,15 @@ public class StudentController {
         student.setLastName(inputStudent.getLastName());
         student.setEmail(inputStudent.getEmail());
 
-        // set school
-        School school = schoolRepository.getSchoolById(Long.parseLong(inputStudent.getSchoolId()));
+        // Set school for the student
+        Long schoolId = Long.parseLong(inputStudent.getSchoolId());
+        School school = schoolService.getSchoolById(schoolId);
+        if (school == null) {
+            return null;
+        }
         student.setSchool(school);
 
-        studentRepository.saveStudent(student);
+        studentService.saveStudent(student);
 
         return student;
     }
@@ -58,6 +62,6 @@ public class StudentController {
     public String deleteStudent(@Argument(name = "studentId") String id) {
         Long studentId = Long.parseLong(id);
 
-        return studentRepository.deleteStudent(studentId).getMessage();
+        return studentService.deleteStudent(studentId).getMessage();
     }
 }
